@@ -5,7 +5,7 @@ class MemoryCard extends Component {
     render() {
         return (
         <div className='MemoryCard'>
-            <img src='https://www.digitalcrafts.com/img/DigitalCrafts-Logo-Wrench.png'></img>
+            <img src='https://www.digitalcrafts.com/img/DigitalCrafts-Logo-Wrench.png' alt="dc-log"></img>
         </div>
         );
     }
