@@ -36,16 +36,62 @@ class App extends Component {
     }
 
     pickCard(cardIndex) {
-        if (cardIndex === this.state.deck[cardIndex]) {
+        const cardToFlip = {...this.state.deck[cardIndex]};
+
+        let newPickedCards = this.state.pickedCards.concat(cardIndex);
+
+        let newDeck = this.state.deck.map((card, index) => {
+            if (cardIndex === index) {
+                return cardToFlip;
+            }
+            return card;
+        });
+
+        if (newDeck[cardIndex] === this.state.deck[cardIndex]) {
             return;
         }
+        cardToFlip.isFlipped = true;
 
-        const cardToFlip = {...this.state.deck[cardIndex]};
+        if (newPickedCards === 2) {
+            const card1Index = newPickedCards[0];
+            const card2Index = newPickedCards[1];
+            const card1 = newDeck[card1Index];
+            const card2 = newDeck[card2Index];
+            if (card1 !== card2) {
+                setTimeout(() => {
+                    this.unflipCards(card1Index, card2Index);
+                }, 1000);
+            }
+            newPickedCards = [];
+        }
+
+        this.setState({
+            deck: newDeck, pickedCards: newPickedCards
+        })
+    }
+
+    unflipCards(card1Index, card2Index) {  
+        let newDeck = this.state.deck.map((card) => {
+            return card
+        })
+
+        newDeck[card1Index].isFlipped = false;
+        newDeck[card2Index].isFlipped = false;
+
+        // const card1 = {...this.state.deck[card1Index]};
+        // const card2 = {...this.state.deck[card2Index]};
+    
+        // card1.isFlipped = false;
+        // card2.isFlipped = false;
+    
+        this.setState({
+            deck: newDeck
+        })
     }
 
     render() {
         const cardsJSX = this.state.deck.map((card, index) => {
-            return <MemoryCard symbol={card.symbol} isFlipped={card.isFlipped} key={index}/>
+            return <MemoryCard symbol={card.symbol} isFlipped={card.isFlipped} key={index} pickCard={this.pickCard.bind(this,index)}/>
         });
         return (
             <div className="App">
