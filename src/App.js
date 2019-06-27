@@ -52,15 +52,17 @@ class App extends Component {
         }
         cardToFlip.isFlipped = true;
 
-        if (newPickedCards === 2) {
+        if (newPickedCards.length === 2) {
             const card1Index = newPickedCards[0];
             const card2Index = newPickedCards[1];
             const card1 = newDeck[card1Index];
             const card2 = newDeck[card2Index];
-            if (card1 !== card2) {
+            if (card1.symbol !== card2.symbol) {
                 setTimeout(() => {
                     this.unflipCards(card1Index, card2Index);
                 }, 1000);
+            } else {
+                console.log("matches")
             }
             newPickedCards = [];
         }
